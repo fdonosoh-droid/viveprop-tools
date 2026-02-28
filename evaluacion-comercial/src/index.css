@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Lora:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 220 25% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 12%;
+
+    /* Primary: cyan-blue */
+    --primary: 200 98% 39%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 30% 93%;
+    --secondary-foreground: 220 25% 20%;
+
+    --muted: 210 20% 94%;
+    --muted-foreground: 215 15% 48%;
+
+    /* Accent: gold */
+    --accent: 40 80% 52%;
+    --accent-foreground: 220 25% 12%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 22% 86%;
+    --input: 214 22% 86%;
+    --ring: 200 98% 39%;
+
+    --radius: 0.5rem;
+
+    /* Custom Glacier tokens */
+    --navy: 220 60% 25%;
+    --navy-foreground: 0 0% 100%;
+    --gold: 40 80% 52%;
+    --gold-foreground: 220 25% 12%;
+
+    --sidebar-background: 220 30% 96%;
+    --sidebar-foreground: 220 25% 20%;
+    --sidebar-primary: 200 98% 39%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 40 80% 52%;
+    --sidebar-accent-foreground: 220 25% 12%;
+    --sidebar-border: 214 22% 86%;
+    --sidebar-ring: 200 98% 39%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  h1, h2, h3 {
+    @apply font-sans;
+  }
+}
+
+@layer components {
+  /* Compact table inputs */
+  .input-compact {
+    @apply h-8 text-xs px-2 py-1 rounded border border-input bg-background focus:ring-1 focus:ring-ring focus:outline-none w-full;
+  }
+
+  /* Monospace table cells */
+  .calc-cell {
+    @apply font-mono tabular-nums text-xs px-2 py-1;
+  }
+
+  .calc-cell-readonly {
+    @apply bg-muted/30 text-muted-foreground;
+  }
+
+  /* Result highlight */
+  .result-highlight {
+    @apply bg-accent/10 rounded px-2 py-1;
+  }
+
+  /* Section header in report */
+  .section-header {
+    @apply bg-navy text-white font-semibold text-sm px-3 py-1.5 rounded mb-3;
+  }
+
+  /* Wizard step circle */
+  .step-circle {
+    @apply flex items-center justify-center w-7 h-7 rounded-full text-xs font-semibold border-2 transition-all duration-200;
+  }
+
+  /* Card hover */
+  .type-card {
+    @apply border-2 rounded-xl p-8 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1;
+  }
+}

@@ -1,0 +1,17 @@
+# Env files (root level)
+.env
+.env.*
+
+# Docker image tarballs
+*.tar.gz
+
+# VPS docs (credentials, untracked)
+/vps/
+
+# OS
+.DS_Store
+
+# IDE
+.idea
+.vscode/*
+!.vscode/extensions.json

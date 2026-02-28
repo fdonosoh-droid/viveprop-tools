@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Especificación — Viveprop Evaluaciones Comerciales</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1e293b;
+      --navy2:  #334155;
+      --gold:   #b8860b;
+      --gold-l: #fef9e7;
+      --blue:   #2563eb;
+      --blue-l: #eff6ff;
+      --green:  #166534;
+      --green-l:#f0fdf4;
+      --red:    #991b1b;
+      --red-l:  #fef2f2;
+      --gray:   #64748b;
+      --gray-l: #f8fafc;
+      --border: #e2e8f0;
+      --text:   #0f172a;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text);
+      background: #fff;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 40px 60px;
+    }
+
+    /* ── Cover page ── */
+    .cover {
+      background: var(--navy);
+      color: #fff;
+      border-radius: 12px;
+      padding: 56px 48px;
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::after {
+      content: '';
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .cover-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .cover h1 {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .cover h2 {
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.70);
+      margin-bottom: 32px;
+    }
+    .cover-meta {
+      display: flex;
+      gap: 40px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 24px;
+    }
+    .cover-meta-item label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 4px;
+    }
+    .cover-meta-item span { font-size: 13px; color: rgba(255,255,255,0.85); }
+
+    /* ── TOC ── */
+    .toc {
+      background: var(--gray-l);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+    .toc h3 {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 14px;
+    }
+    .toc ol { padding-left: 18px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--blue); text-decoration: none; font-size: 13px; }
+    .toc a:hover { text-decoration: underline; }
+    .toc .sub { padding-left: 20px; margin-top: 4px; }
+    .toc .sub li { margin-bottom: 2px; font-size: 12px; color: var(--gray); }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 52px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 3px solid var(--navy);
+      padding-bottom: 10px;
+      margin-bottom: 24px;
+    }
+    .section-num {
+      background: var(--navy);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-header h2 { font-size: 19px; font-weight: 700; color: var(--navy); }
+
+    .subsection { margin-bottom: 28px; }
+    .subsection h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy2);
+      border-left: 3px solid var(--gold);
+      padding-left: 10px;
+      margin-bottom: 12px;
+    }
+    .subsection h4 {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy2);
+      margin: 14px 0 6px;
+    }
+
+    p { margin-bottom: 10px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+    thead th {
+      background: var(--navy);
+      color: #fff;
+      padding: 8px 10px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    tbody td {
+      padding: 7px 10px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tbody tr:nth-child(even) td { background: var(--gray-l); }
+    tbody tr:hover td { background: var(--blue-l); }
+
+    /* ── Code blocks ── */
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-size: 11.5px;
+      overflow-x: auto;
+      margin: 10px 0 16px;
+      line-height: 1.7;
+    }
+    code {
+      background: #f1f5f9;
+      color: #be185d;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 11.5px;
+      font-family: 'Consolas', 'Courier New', monospace;
+    }
+    pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+
+    /* ── Callout boxes ── */
+    .callout {
+      border-left: 4px solid;
+      border-radius: 0 6px 6px 0;
+      padding: 12px 16px;
+      margin: 12px 0;
+      font-size: 12px;
+    }
+    .callout.info  { border-color: var(--blue);  background: var(--blue-l);  }
+    .callout.warn  { border-color: var(--gold);  background: var(--gold-l);  }
+    .callout.ok    { border-color: var(--green); background: var(--green-l); }
+    .callout.err   { border-color: var(--red);   background: var(--red-l);   }
+    .callout strong { display: block; margin-bottom: 4px; font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+    /* ── Formula boxes ── */
+    .formula {
+      background: #f8f9ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-family: 'Consolas', monospace;
+      font-size: 12px;
+      color: #1e40af;
+    }
+    .formula .result { color: #7c3aed; font-weight: bold; }
+
+    /* ── Step cards ── */
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+      margin: 14px 0;
+    }
+    .step-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .step-card .step-num {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .step-card h4 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+    .step-card p  { font-size: 11.5px; color: var(--gray); }
+
+    /* ── Param table ── */
+    .param-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .param-item {
+      background: var(--gray-l);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+    .param-item .param-name { font-size: 11px; font-weight: 700; color: var(--navy2); }
+    .param-item .param-val  { font-size: 13px; font-weight: 600; color: var(--blue); font-family: 'Consolas', monospace; }
+    .param-item .param-desc { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+    /* ── Lists ── */
+    ul, ol { padding-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; font-size: 12.5px; }
+    ul li::marker { color: var(--gold); }
+
+    /* ── Tags ── */
+    .tag {
+      display: inline-block;
+      background: var(--navy);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 3px;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+    .tag.green { background: var(--green); }
+    .tag.gold  { background: var(--gold);  }
+    .tag.blue  { background: var(--blue);  }
+
+    /* ── RH table ── */
+    .rh-table { font-size: 10px; }
+    .rh-table thead th { padding: 5px 6px; font-size: 10px; }
+    .rh-table tbody td { padding: 4px 6px; text-align: center; }
+    .rh-table .col-key { background: var(--navy); color: #fff; font-weight: 700; }
+
+    /* ── Print ── */
+    @media print {
+      body { padding: 0; max-width: none; font-size: 11px; }
+      .cover { border-radius: 0; margin-bottom: 32px; }
+      pre { page-break-inside: avoid; }
+      .section { page-break-before: always; }
+      .section:first-of-type { page-break-before: avoid; }
+      a { color: inherit; text-decoration: none; }
+    }
+
+    /* ── Print button ── */
+    .print-btn {
+      position: fixed;
+      bottom: 32px; right: 32px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      display: flex; align-items: center; gap: 8px;
+      z-index: 100;
+    }
+    .print-btn:hover { background: var(--navy2); }
+    @media print { .print-btn { display: none; } }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     PORTADA
+════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-badge">Documento Técnico Oficial</div>
+  <h1>Viveprop Evaluaciones Comerciales</h1>
+  <h2>Especificación Lógica, Funcional y Técnica</h2>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>Versión</label>
+      <span>1.0</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Fecha</label>
+      <span id="doc-date"></span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Aplicación</label>
+      <span>evaluacion-comercial</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Mercado objetivo</label>
+      <span>Chile — UF / CLP</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ÍNDICE
+════════════════════════════════════════════════════════ -->
+<div class="toc">
+  <h3>Índice de contenidos</h3>
+  <ol>
+    <li><a href="#s1">Resumen ejecutivo</a></li>
+    <li><a href="#s2">Especificación técnica</a>
+      <ol class="sub">
+        <li><a href="#s2-1">Stack tecnológico</a></li>
+        <li><a href="#s2-2">Arquitectura</a></li>
+        <li><a href="#s2-3">Estructura de archivos</a></li>
+        <li><a href="#s2-4">APIs externas</a></li>
+      </ol>
+    </li>
+    <li><a href="#s3">Especificación funcional</a>
+      <ol class="sub">
+        <li><a href="#s3-1">Paso 0 — Selector de tipo</a></li>
+        <li><a href="#s3-2">Paso 1 — Parámetros de mercado</a></li>
+        <li><a href="#s3-3">Paso 2 — Datos del inmueble</a></li>
+        <li><a href="#s3-4">Paso 3 — Ingreso de comparables</a></li>
+        <li><a href="#s3-5">Paso 4 — Resultados de tasación</a></li>
+        <li><a href="#s3-6">Paso 5 — Análisis de arriendos</a></li>
+        <li><a href="#s3-7">Paso 6 — Informe y descarga PDF</a></li>
+      </ol>
+    </li>
+    <li><a href="#s4">Especificación lógica — Modelos de datos</a></li>
+    <li><a href="#s5">Especificación lógica — Motor de cálculo CASA</a>
+      <ol class="sub">
+        <li><a href="#s5-1">Tabla Ross-Heidecke</a></li>
+        <li><a href="#s5-2">Procesamiento de comparable Casa</a></li>
+        <li><a href="#s5-3">Método REP</a></li>
+        <li><a href="#s5-4">Método Estadístico (STDEV)</a></li>
+        <li><a href="#s5-5">Método MEDIA</a></li>
+      </ol>
+    </li>
+    <li><a href="#s6">Especificación lógica — Motor de cálculo DEPTO</a>
+      <ol class="sub">
+        <li><a href="#s6-1">Procesamiento de comparable Depto</a></li>
+        <li><a href="#s6-2">Método Competencia Directa (COMP)</a></li>
+      </ol>
+    </li>
+    <li><a href="#s7">Especificación lógica — Análisis de arriendos</a></li>
+    <li><a href="#s8">Parámetros de mercado por defecto</a></li>
+    <li><a href="#s9">Generación del PDF</a></li>
+    <li><a href="#s10">Validaciones y manejo de errores</a></li>
+  </ol>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECCIÓN 1 — RESUMEN EJECUTIVO
+════════════════════════════════════════════════════════ -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>Resumen Ejecutivo</h2>
+  </div>
+
+  <p>
+    <strong>Viveprop Evaluaciones Comerciales</strong> es una aplicación web de tasación y caso de negocio inmobiliario orientada al mercado chileno. Permite a corredores y tasadores valorizar propiedades (casas y departamentos) mediante metodologías formales reconocidas en Chile, generar un análisis de rentabilidad por arriendo y descargar un informe profesional en PDF.
+  </p>
+
+  <div class="callout ok">
+    <strong>✓ Principios de diseño</strong>
+    100 % client-side · Sin backend · Sin autenticación · Sin persistencia de datos entre sesiones · Todos los cálculos ocurren en el navegador del usuario
+  </div>
+
+  <div class="subsection">
+    <h3>Funcionalidades principales</h3>
+    <ul>
+      <li>Wizard guiado de 7 pasos con indicador de progreso</li>
+      <li>Soporte dual: <strong>Casa</strong> (REP + Estadístico + Media) y <strong>Departamento</strong> (Competencia Directa)</li>
+      <li>Carga automática del valor UF del día desde <code>mindicador.cl</code></li>
+      <li>Tabla Ross-Heidecke completa embebida para calcular depreciación de construcciones</li>
+      <li>Análisis de arriendos con cálculo de cap rate bajo tres escenarios de vacancia</li>
+      <li>Vista previa del informe en pantalla</li>
+      <li>Descarga del informe completo en PDF (formato carta, con paginación automática)</li>
+    </ul>
+  </div>
+
+  <div class="subsection">
+    <h3>Métodos de valorización implementados</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo</th><th>Método</th><th>Norma de referencia</th><th>Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Casa</td>
+          <td>REP (Reposición)</td>
+          <td>Valorización por costo de reposición física</td>
+          <td>Valor terreno + construcción depreciada</td>
+        </tr>
+        <tr>
+          <td>Casa</td>
+          <td>Estadístico (STDEV)</td>
+          <td>Mediana ± desviación estándar de comparables</td>
+          <td>Intervalo estadístico de valor terreno</td>
+        </tr>
+        <tr>
+          <td>Casa</td>
+          <td>MEDIA</td>
+          <td>Promedio ponderado REP + STDEV</td>
+          <td>Valor final sugerido</td>
+        </tr>
+        <tr>
+          <td>Departamento</td>
+          <td>Competencia Directa (COMP)</td>
+          <td>Comparación de mercado con ajuste por factores</td>
+          <td>UF/m² ajustado → valor total</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECCIÓN 2 — ESPECIFICACIÓN TÉCNICA
+════════════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Especificación Técnica</h2>
+  </div>
+
+  <div class="subsection" id="s2-1">
+    <h3>2.1 Stack tecnológico</h3>
+    <table>
+      <thead><tr><th>Capa</th><th>Tecnología</th><th>Versión</th><th>Rol</th></tr></thead>
+      <tbody>
+        <tr><td>Framework UI</td><td>React</td><td>18.3.1</td><td>Renderizado de componentes</td></tr>
+        <tr><td>Lenguaje</td><td>TypeScript</td><td>5.8.3</td><td>Tipado estático</td></tr>
+        <tr><td>Build tool</td><td>Vite</td><td>5.4.19</td><td>Dev server y bundler</td></tr>
+        <tr><td>Estilos</td><td>Tailwind CSS</td><td>3.4.17</td><td>Utilidades CSS</td></tr>
+        <tr><td>Componentes UI</td><td>shadcn/ui (Radix UI)</td><td>—</td><td>Button, Input, Select, Checkbox, Badge, Textarea</td></tr>
+        <tr><td>Iconos</td><td>Lucide React</td><td>0.462.0</td><td>Íconos SVG</td></tr>
+        <tr><td>PDF</td><td>jsPDF</td><td>4.2.0</td><td>Generación de PDF client-side</td></tr>
+        <tr><td>Routing</td><td>React Router DOM</td><td>6.30.1</td><td>SPA routing (ruta única /)</td></tr>
+        <tr><td>Formularios</td><td>React Hook Form + Zod</td><td>7.x / 3.x</td><td>Validación (disponible, uso parcial)</td></tr>
+        <tr><td>Notificaciones</td><td>Sonner</td><td>1.7.4</td><td>Toasts de error/éxito</td></tr>
+        <tr><td>Testing</td><td>Vitest</td><td>3.2.4</td><td>Unit tests</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection" id="s2-2">
+    <h3>2.2 Arquitectura</h3>
+    <p>La aplicación es una <strong>Single Page Application (SPA)</strong> con una única ruta (<code>/</code>). No existe backend; toda la lógica corre en el navegador. El estado del wizard vive en el componente raíz <code>Index.tsx</code> y se pasa hacia abajo via props.</p>
+    <div class="callout info">
+      <strong>Patrón de estado</strong>
+      Estado local con <code>useState</code> en Index.tsx. No se usa Redux ni Context. Al hacer "Nueva Tasación" el estado se resetea completamente a valores por defecto. No hay persistencia (localStorage ni sessionStorage).
+    </div>
+
+    <h4>Flujo de datos</h4>
+    <pre><code>Index.tsx (estado global)
+  ├── StepIndicator (UI de navegación, recibe step + propertyType + onReset)
+  ├── PropertyTypeSelector (Paso 0, emite onSelect)
+  ├── ConfigStep (Paso 1, recibe/emite params)
+  ├── SubjectStep (Paso 2, recibe/emite subject)
+  ├── ComparablesCasaStep | ComparablesDeptStep (Paso 3, recibe/emite comps)
+  ├── ResultsStep (Paso 4, recibe result calculado)
+  ├── RentalStep (Paso 5, recibe/emite arriendoAnalysis)
+  └── ReportStep (Paso 6, consume todo el estado para mostrar y exportar)
+
+lib/engines.ts  ← funciones puras de cálculo (sin estado)
+lib/types.ts    ← interfaces TypeScript + constantes + helpers
+lib/pdfExport.ts← genera PDF usando jsPDF
+lib/rh-table.ts ← tabla Ross-Heidecke embebida
+lib/comunas.ts  ← listado de ~350 comunas de Chile</code></pre>
+  </div>
+
+  <div class="subsection" id="s2-3">
+    <h3>2.3 Estructura de archivos</h3>
+    <pre><code>evaluacion-comercial/
+├── public/
+│   ├── favicon.ico
+│   ├── robots.txt
+│   └── especificacion.html         ← este documento
+├── src/
+│   ├── components/
+│   │   ├── ui/                     ← componentes shadcn/ui (no modificar)
+│   │   ├── PropertyTypeSelector.tsx  (Paso 0)
+│   │   ├── ConfigStep.tsx            (Paso 1)
+│   │   ├── SubjectStep.tsx           (Paso 2)
+│   │   ├── ComparablesCasaStep.tsx   (Paso 3 – Casa)
+│   │   ├── ComparablesDeptStep.tsx   (Paso 3 – Depto)
+│   │   ├── ResultsStep.tsx           (Paso 4)
+│   │   ├── RentalStep.tsx            (Paso 5)
+│   │   ├── ReportStep.tsx            (Paso 6)
+│   │   ├── StepIndicator.tsx         (barra de progreso sticky)
+│   │   └── NavLink.tsx
+│   ├── lib/
+│   │   ├── engines.ts              ← motor de cálculo (funciones puras)
+│   │   ├── types.ts                ← tipos, constantes, factories
+│   │   ├── pdfExport.ts            ← generación de PDF
+│   │   ├── rh-table.ts             ← tabla Ross-Heidecke
+│   │   ├── comunas.ts              ← comunas de Chile
+│   │   └── utils.ts
+│   ├── hooks/
+│   │   ├── use-toast.ts
+│   │   └── use-mobile.tsx
+│   ├── pages/
+│   │   ├── Index.tsx               ← componente raíz con wizard
+│   │   └── NotFound.tsx
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── index.html
+├── package.json
+├── tailwind.config.ts
+└── vite.config.ts</code></pre>
+  </div>
+
+  <div class="subsection" id="s2-4">
+    <h3>2.4 APIs externas</h3>
+    <table>
+      <thead><tr><th>Servicio</th><th>Endpoint</th><th>Uso</th><th>Obligatorio</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>mindicador.cl</td>
+          <td><code>GET https://mindicador.cl/api/uf</code></td>
+          <td>Obtener valor UF del día (CLP). Se toma <code>data.serie[0].valor</code></td>
+          <td>No (se puede ingresar manualmente)</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      <strong>⚠ Dependencia de CORS</strong>
+      La API de mindicador.cl acepta peticiones desde el navegador. Si hay error de red, la app captura la excepción y muestra un toast indicando que se ingrese el valor manualmente.
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECCIÓN 3 — ESPECIFICACIÓN FUNCIONAL
+════════════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Especificación Funcional</h2>
+  </div>
+
+  <p>La app implementa un wizard lineal de 7 pasos. El usuario no puede saltar pasos, pero puede retroceder. El estado global se preserva al navegar hacia atrás.</p>
+
+  <div class="step-grid">
+    <div class="step-card"><div class="step-num">Paso 0</div><h4>Tipo de Propiedad</h4><p>Pantalla de inicio. Selección exclusiva: Casa o Departamento.</p></div>
+    <div class="step-card"><div class="step-num">Paso 1</div><h4>Parámetros de Mercado</h4><p>Valor UF, factores de negociación, costos unitarios.</p></div>
+    <div class="step-card"><div class="step-num">Paso 2</div><h4>Datos del Inmueble</h4><p>Identificación, superficies, construcción (Casa) o factores (Depto).</p></div>
+    <div class="step-card"><div class="step-num">Paso 3</div><h4>Comparables</h4><p>Tabla editable de propiedades comparables con columnas calculadas en tiempo real.</p></div>
+    <div class="step-card"><div class="step-num">Paso 4</div><h4>Resultados</h4><p>Valores de tasación por los tres métodos (Casa) o Competencia Directa (Depto).</p></div>
+    <div class="step-card"><div class="step-num">Paso 5</div><h4>Arriendos</h4><p>Análisis de rentabilidad con cap rate por escenario de vacancia.</p></div>
+    <div class="step-card"><div class="step-num">Paso 6</div><h4>Informe + PDF</h4><p>Vista previa del informe completo y descarga en PDF.</p></div>
+  </div>
+
+  <!-- 3.1 -->
+  <div class="subsection" id="s3-1">
+    <h3>3.1 Paso 0 — Selector de tipo de propiedad</h3>
+    <p>Pantalla centrada con gradiente suave. Muestra el nombre de la app "Viveprop" con ícono Building2 y dos tarjetas de acción:</p>
+    <table>
+      <thead><tr><th>Tarjeta</th><th>Tipo</th><th>Método de valorización</th></tr></thead>
+      <tbody>
+        <tr><td>Valorizar Casa</td><td><code>CASA</code></td><td>REP + Estadístico + MEDIA (Ross-Heidecke)</td></tr>
+        <tr><td>Valorizar Departamento</td><td><code>DEPTO</code></td><td>Competencia Directa con factores de ajuste</td></tr>
+      </tbody>
+    </table>
+    <p>Al seleccionar un tipo, se inicializa el sujeto con valores por defecto según el tipo y se avanza al paso 1. El <code>StepIndicator</code> permanece oculto en este paso.</p>
+  </div>
+
+  <!-- 3.2 -->
+  <div class="subsection" id="s3-2">
+    <h3>3.2 Paso 1 — Parámetros de mercado</h3>
+    <p>Permite ajustar todos los parámetros que afectan los cálculos. Los valores por defecto reflejan el mercado promedio chileno.</p>
+    <h4>UF del día</h4>
+    <p>Botón "Cargar UF" realiza <code>fetch('https://mindicador.cl/api/uf')</code> y toma <code>data.serie[0].valor</code>. Si falla, muestra toast de error. El usuario puede igualmente ingresar el valor manualmente. Si no se ingresa UF, los totales se muestran solo en UF (sin conversión a CLP).</p>
+    <h4>Campos por tipo de propiedad</h4>
+    <table>
+      <thead><tr><th>Campo</th><th>Casa</th><th>Depto</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td>Factor negociación</td><td>✓</td><td>✓</td><td>0.95</td></tr>
+        <tr><td>UF Bodega</td><td>✓</td><td>✓</td><td>70</td></tr>
+        <tr><td>UF Estacionamiento</td><td>✓ (450)</td><td>✓ (400)</td><td>—</td></tr>
+        <tr><td>Costo construcción REP (UF/m²)</td><td>✓</td><td>—</td><td>4.94</td></tr>
+        <tr><td>Costo construcción STDEV (UF/m²)</td><td>✓</td><td>—</td><td>24.00</td></tr>
+        <tr><td>Costo adicional (UF/m²)</td><td>✓</td><td>—</td><td>3.40</td></tr>
+        <tr><td>Peso terraza área</td><td>✓ (0.70)</td><td>✓ (0.50)</td><td>—</td></tr>
+        <tr><td>Factor ajuste STDEV</td><td>✓</td><td>—</td><td>0.05</td></tr>
+        <tr><td>Peso precio terraza</td><td>—</td><td>✓</td><td>0.70</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3.3 -->
+  <div class="subsection" id="s3-3">
+    <h3>3.3 Paso 2 — Datos del inmueble sujeto</h3>
+    <table>
+      <thead><tr><th>Sección</th><th>Campo</th><th>Tipo</th><th>Casa</th><th>Depto</th><th>Req.</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4">Identificación</td><td>Dirección</td><td>Texto</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td>Comuna</td><td>Buscador desplegable</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td>Cliente / Propietario</td><td>Texto</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td>Rol SII</td><td>Texto</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td rowspan="10">Superficies</td><td>m² Útiles</td><td>Número</td><td>✓</td><td>✓</td><td>DEPTO</td></tr>
+        <tr><td>m² Terraza</td><td>Número</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td>m² Loggia</td><td>Número</td><td>✓</td><td>—</td><td>—</td></tr>
+        <tr><td>m² Terreno</td><td>Número</td><td>✓</td><td>—</td><td>CASA</td></tr>
+        <tr><td>m² Adicional 1/2</td><td>Número</td><td>✓</td><td>—</td><td>—</td></tr>
+        <tr><td>Dormitorios</td><td>Entero</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td>Baños</td><td>Decimal (0.5)</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td>Estacionamientos</td><td>Entero</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td>Bodegas</td><td>Entero</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td>Expectativa vendedor (UF) / Avalúo fiscal (UF)</td><td>Decimal</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td rowspan="3">Construcción</td><td>Año construcción</td><td>Entero</td><td>✓</td><td>—</td><td>CASA</td></tr>
+        <tr><td>Material (9 opciones)</td><td>Select</td><td>✓</td><td>—</td><td>CASA</td></tr>
+        <tr><td>Estado conservación (A–H)</td><td>Select</td><td>✓</td><td>—</td><td>CASA</td></tr>
+        <tr><td rowspan="3">Factores sujeto</td><td>Factor Estado/Antigüedad (0–80 años)</td><td>Select 81 opciones</td><td>—</td><td>✓</td><td>DEPTO</td></tr>
+        <tr><td>Factor Orientación/Vista (0–10)</td><td>Select 11 opciones</td><td>—</td><td>✓</td><td>DEPTO</td></tr>
+        <tr><td>Factor Franja de Valor</td><td>Decimal manual</td><td>—</td><td>✓</td><td>DEPTO</td></tr>
+        <tr><td rowspan="2">Notas</td><td>Observaciones legales</td><td>Textarea</td><td>✓</td><td>✓</td><td>—</td></tr>
+        <tr><td>Factores diferenciadores</td><td>Textarea</td><td>✓</td><td>✓</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>El buscador de comunas filtra el listado (≈350 comunas de Chile) al escribir 2+ caracteres, mostrando hasta 50 resultados. Al seleccionar, actualiza el campo y cierra el dropdown.</p>
+  </div>
+
+  <!-- 3.4 -->
+  <div class="subsection" id="s3-4">
+    <h3>3.4 Paso 3 — Ingreso de comparables</h3>
+    <h4>Tabla de comparables Casa (máx. 12)</h4>
+    <p>Columnas de entrada (editables): Activo, Precio Pub. (UF), m² Terreno, m² Construidos, Año, Material, Estado, Costo UF/m², Estacionamientos, Bodegas.<br>
+    Columnas calculadas en tiempo real (readonly): Precio Venta UF, % Vida, FK RH, <strong>Terreno UF/m²</strong> (columna dorada — input clave para REP).</p>
+    <div class="callout warn">
+      <strong>⚠ Alerta de fila</strong>
+      Si un comparable está activo y tiene precio, pero su resultado de Terreno UF/m² es 0 o negativo (precio neto insuficiente), la fila se resalta en rojo y la celda muestra "—". Esa fila no contribuye al cálculo.
+    </div>
+    <h4>Tabla de comparables Departamento (máx. 6)</h4>
+    <p>Columnas de entrada: Activo, Precio (UF), m² Útiles, m² Terraza, F.Estado, F.Orient., F.AntPub., Estacionamientos, Bodegas.<br>
+    Columnas calculadas: Precio Venta UF, m² Total, Precio Neto UF, UF/m² Nominal, <strong>UF/m² Ajustado</strong> (columna dorada — input clave para COMP).</p>
+    <p>Iniciadores por defecto: Casa = 4 filas; Depto = 3 filas. Se pueden agregar y eliminar filas (excepto bajar del mínimo inicial).</p>
+  </div>
+
+  <!-- 3.5 -->
+  <div class="subsection" id="s3-5">
+    <h3>3.5 Paso 4 — Resultados de tasación</h3>
+    <p>Se muestra el resultado del motor de cálculo. El cálculo se ejecuta al presionar "Calcular" al final del paso 3.</p>
+    <h4>Casa — 3 métodos</h4>
+    <ul>
+      <li>Card destacada con MEDIA MIN / ⭐ PROM / MAX en UF (y CLP si aplica)</li>
+      <li>Tabla detalle: 3 componentes (Terreno, Construcción, Adicionales) × 6 columnas (REP MAX/MIN, STDEV MAX/MIN, MEDIA MAX/MIN)</li>
+      <li>3 tarjetas métricas: Valor Tierra REP (MAX/MIN), Intervalo STDEV (MAX/MIN), Mediana ± Desv.</li>
+    </ul>
+    <h4>Departamento — Competencia Directa</h4>
+    <ul>
+      <li>Card con COMP MIN / ⭐ PROM / MAX</li>
+      <li>Tabla: 4 componentes (Útil, Terraza, Estacionamientos, Bodegas) × 3 columnas (MAX, MIN, PROM)</li>
+      <li>2 tarjetas: CD Últimos 3 (UF/m²), Promedio General (UF/m²)</li>
+    </ul>
+  </div>
+
+  <!-- 3.6 -->
+  <div class="subsection" id="s3-6">
+    <h3>3.6 Paso 5 — Análisis de arriendos y rentabilidad</h3>
+    <p>Permite ingresar comparables de arriendo y calcular el cap rate del inmueble tasado.</p>
+    <ul>
+      <li>Tabla de arriendos: referencia (texto libre), m² Totales, arriendo publicado, moneda (CLP o UF). Mínimo 3 comparables.</li>
+      <li>Si algún comparable está en UF y no se ingresó el valor UF del día: alerta amarilla</li>
+      <li>Si hay valor UF: columna adicional mostrando el arriendo en CLP</li>
+      <li>Input de valor de propiedad en UF (para el cap rate)</li>
+      <li>Selector de vacancia: 1 / 2 / 3 meses sin arriendo por año</li>
+      <li>Vista previa en tiempo real (aparece al tener 3+ comparables válidos): métricas de arriendo promedio, valor propiedad, gastos anuales; tabla de los 3 escenarios de vacancia.</li>
+    </ul>
+  </div>
+
+  <!-- 3.7 -->
+  <div class="subsection" id="s3-7">
+    <h3>3.7 Paso 6 — Informe y descarga PDF</h3>
+    <p>Muestra el informe completo en pantalla como preview y permite descargarlo en PDF.</p>
+    <p>Secciones del informe:</p>
+    <ol>
+      <li>Encabezado navy: título, tipo de propiedad, fecha, UF del día, datos del propietario</li>
+      <li><strong>I. Análisis de la Propiedad</strong>: todos los datos del inmueble sujeto</li>
+      <li><strong>II. Factibilidad Comercial</strong>: expectativa vendedor, valor tasación, avalúo fiscal, factores diferenciadores</li>
+      <li><strong>Arriendos comparativos</strong> (si se calcularon)</li>
+      <li><strong>III. Estrategia de Precio</strong>: MIN / ⭐ PROM / MAX en UF y CLP</li>
+      <li><strong>Impacto de la Vacancia</strong>: tabla de 3 escenarios con cap rate</li>
+      <li><strong>IV. Conclusiones</strong>: párrafo autogenerado con los valores clave</li>
+    </ol>
+    <p>Botones: ← Volver | Descargar PDF | Nueva Tasación (resetea wizard).</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECCIÓN 4 — MODELOS DE DATOS
+════════════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>Especificación Lógica — Modelos de datos</h2>
+  </div>
+
+  <div class="subsection">
+    <h3>4.1 Parámetros de mercado (MarketParams)</h3>
+    <pre><code>interface MarketParams {
+  uf_value_clp:              number | null   // Valor UF en CLP (null = no ingresado)
+  negotiation_factor:        number          // Factor de negociación (ej: 0.95)
+  parking_uf_casa:           number          // UF por estacionamiento (casa)
+  parking_uf_depto:          number          // UF por estacionamiento (depto)
+  storage_uf:                number          // UF por bodega
+  terrace_weight_casa_area:  number          // Fracción de área de terraza en m²_c (casa)
+  terrace_weight_depto_area: number          // Fracción de área de terraza en m²_total (depto)
+  terrace_price_weight_depto: number         // Fracción del precio útil para terraza (depto)
+  construction_cost_rep:     number          // Costo construcción REP (UF/m²)
+  construction_cost_stdev:   number          // Costo construcción STDEV (UF/m²)
+  additional_cost:           number          // Costo adicional (UF/m²)
+  stdev_factor_adj:          number          // Ajuste FK_RH para precio_stdev
+}</code></pre>
+  </div>
+
+  <div class="subsection">
+    <h3>4.2 Sujeto Casa (SubjectCasa)</h3>
+    <pre><code>interface SubjectCasa {
+  property_type:        'CASA'
+  client_name:          string
+  address:              string
+  commune:              string
+  sii_role:             string
+  usable_area_m2:       number   // m² útiles
+  terrace_area_m2:      number   // m² terraza
+  loggia_area_m2:       number   // m² loggia
+  land_area_m2:         number   // m² terreno
+  adicional_1_m2:       number   // m² adicional 1
+  adicional_2_m2:       number   // m² adicional 2
+  construction_year:    number
+  material:             MaterialType
+  state:                ConservationState
+  bedrooms:             number
+  bathrooms:            number
+  parking_spaces:       number
+  storage_units:        number
+  fiscal_appraisal_uf:  number
+  seller_expectation_uf: number
+  observaciones_legales?: string
+  factores_diferenciadores?: string
+}</code></pre>
+  </div>
+
+  <div class="subsection">
+    <h3>4.3 Sujeto Departamento (SubjectDepto)</h3>
+    <pre><code>interface SubjectDepto {
+  property_type:          'DEPTO'
+  // ... mismos campos comunes que SubjectCasa ...
+  subject_factor_estado:  number   // Factor antigüedad (1.00 = 0 años, 0.20 = 80 años)
+  subject_factor_orient:  number   // Factor orientación/vista (0.90–1.10)
+  subject_factor_franja:  number   // Factor franja de valor (input libre, ej: 0.96)
+}</code></pre>
+  </div>
+
+  <div class="subsection">
+    <h3>4.4 Tipos de material y vida útil</h3>
+    <table>
+      <thead><tr><th>Código</th><th>Descripción</th><th>Vida útil (años)</th></tr></thead>
+      <tbody>
+        <tr><td>acero</td><td>Acero / Estructura metálica</td><td>100</td></tr>
+        <tr><td>hormigon</td><td>Hormigón armado</td><td>80</td></tr>
+        <tr><td>albanileria_ladrillo_armada</td><td>Albañilería ladrillo armada/reforzada</td><td>80</td></tr>
+        <tr><td>albanileria_ladrillo_simple</td><td>Albañilería ladrillo simple</td><td>60</td></tr>
+        <tr><td>albanileria_bloque</td><td>Albañilería bloque de cemento</td><td>60</td></tr>
+        <tr><td>madera</td><td>Madera (estructura)</td><td>50</td></tr>
+        <tr><td>steel_frame</td><td>Perfiles livianos / steel frame</td><td>50</td></tr>
+        <tr><td>adobe</td><td>Adobe</td><td>40</td></tr>
+        <tr><td>prefabricado</td><td>Prefabricado (hormigón / EPS)</td><td>40</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection">
+    <h3>4.5 Estados de conservación</h3>
+    <table>
+      <thead><tr><th>Código</th><th>Descripción</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>Excelente / Óptimo</td></tr>
+        <tr><td>B</td><td>Muy Bueno</td></tr>
+        <tr><td>C</td><td>Bueno</td></tr>
+        <tr><td>D</td><td>Regular</td></tr>
+        <tr><td>E</td><td>Deficiente</td></tr>
+        <tr><td>F</td><td>Malo</td></tr>
+        <tr><td>G</td><td>Muy Malo</td></tr>
+        <tr><td>H</td><td>Demolición</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECCIÓN 5 — MOTOR CASA
+════════════════════════════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Especificación Lógica — Motor de cálculo CASA</h2>
+  </div>
+
+  <div class="subsection" id="s5-1">
+    <h3>5.1 Tabla Ross-Heidecke (FK_RH)</h3>
+    <p>La tabla Ross-Heidecke es el estándar chileno de depreciación de construcciones. Se indexa por <strong>% de vida útil consumida</strong> (eje X, pares de 2 a 100) y <strong>estado de conservación</strong> (eje Y, A–H). El valor de la tabla es <code>K</code> (% de depreciación).</p>
+    <div class="formula">
+      <span class="result">FK_RH</span> = (100 − K) / 100<br>
+      donde K = RH_DATA[<em>pct_vida_redondeada</em>][<em>índice_estado</em>]<br><br>
+      % vida útil = (año_actual − año_construcción) / vida_útil_material × 100<br>
+      pct_vida_redondeada = redondear al par más cercano, mín 2, máx 100
+    </div>
+
+    <table class="rh-table">
+      <thead>
+        <tr>
+          <th>%Vida</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="col-key">2</td><td>1</td><td>2</td><td>3</td><td>5</td><td>10</td><td>20</td><td>35</td><td>55</td></tr>
+        <tr><td class="col-key">4</td><td>1</td><td>2</td><td>4</td><td>6</td><td>11</td><td>21</td><td>36</td><td>56</td></tr>
+        <tr><td class="col-key">6</td><td>1</td><td>3</td><td>4</td><td>7</td><td>12</td><td>22</td><td>37</td><td>57</td></tr>
+        <tr><td class="col-key">8</td><td>1</td><td>3</td><td>5</td><td>8</td><td>13</td><td>23</td><td>38</td><td>58</td></tr>
+        <tr><td class="col-key">10</td><td>2</td><td>3</td><td>5</td><td>9</td><td>14</td><td>24</td><td>40</td><td>60</td></tr>
+        <tr><td class="col-key">12</td><td>2</td><td>4</td><td>6</td><td>10</td><td>15</td><td>26</td><td>41</td><td>61</td></tr>
+        <tr><td class="col-key">14</td><td>2</td><td>4</td><td>7</td><td>11</td><td>16</td><td>27</td><td>42</td><td>62</td></tr>
+        <tr><td class="col-key">16</td><td>2</td><td>4</td><td>7</td><td>12</td><td>18</td><td>28</td><td>43</td><td>63</td></tr>
+        <tr><td class="col-key">18</td><td>2</td><td>5</td><td>8</td><td>13</td><td>19</td><td>29</td><td>44</td><td>64</td></tr>
+        <tr><td class="col-key">20</td><td>3</td><td>5</td><td>8</td><td>14</td><td>20</td><td>30</td><td>45</td><td>65</td></tr>
+        <tr><td class="col-key">22</td><td>3</td><td>6</td><td>9</td><td>15</td><td>21</td><td>32</td><td>47</td><td>67</td></tr>
+        <tr><td class="col-key">24</td><td>3</td><td>6</td><td>10</td><td>16</td><td>22</td><td>33</td><td>48</td><td>68</td></tr>
+        <tr><td class="col-key">26</td><td>3</td><td>7</td><td>11</td><td>17</td><td>24</td><td>35</td><td>50</td><td>69</td></tr>
+        <tr><td class="col-key">28</td><td>4</td><td>7</td><td>11</td><td>18</td><td>25</td><td>36</td><td>51</td><td>70</td></tr>
+        <tr><td class="col-key">30</td><td>4</td><td>8</td><td>12</td><td>20</td><td>27</td><td>38</td><td>53</td><td>71</td></tr>
+        <tr><td class="col-key">35</td><td>5</td><td>9</td><td>14</td><td>22</td><td>30</td><td>41</td><td>55</td><td>73</td></tr>
+        <tr><td class="col-key">40</td><td>6</td><td>11</td><td>17</td><td>26</td><td>35</td><td>46</td><td>60</td><td>77</td></tr>
+        <tr><td class="col-key">50</td><td>8</td><td>15</td><td>22</td><td>33</td><td>43</td><td>55</td><td>67</td><td>82</td></tr>
+        <tr><td class="col-key">60</td><td>11</td><td>19</td><td>29</td><td>41</td><td>52</td><td>63</td><td>75</td><td>87</td></tr>
+        <tr><td class="col-key">70</td><td>15</td><td>24</td><td>36</td><td>49</td><td>61</td><td>72</td><td>82</td><td>91</td></tr>
+        <tr><td class="col-key">80</td><td>20</td><td>31</td><td>44</td><td>58</td><td>70</td><td>80</td><td>88</td><td>94</td></tr>
+        <tr><td class="col-key">90</td><td>26</td><td>39</td><td>54</td><td>68</td><td>79</td><td>87</td><td>93</td><td>96</td></tr>
+        <tr><td class="col-key">100</td><td>34</td><td>48</td><td>65</td><td>78</td><td>87</td><td>93</td><td>97</td><td>99</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:var(--gray)">* Tabla completa con 50 filas (pares 2–100). Esta versión muestra filas seleccionadas para legibilidad. La implementación contiene todas.</p>
+  </div>
+
+  <div class="subsection" id="s5-2">
+    <h3>5.2 Procesamiento de comparable Casa</h3>
+    <p>Cada fila de comparable se transforma mediante las siguientes fórmulas:</p>
+    <div class="formula">
+      edad = año_actual − comp_year<br>
+      % vida útil = (edad / vida_util_material) × 100<br>
+      FK_RH = tabla_RH(% vida, estado)    <em>// (100 − K) / 100</em><br><br>
+      precio_venta_uf = comp_price_pub_uf × negotiation_factor<br><br>
+      costo_dep_uf_m2 = comp_cost_uf_m2 × FK_RH<br>
+      costo_total_uf = comp_built_m2 × costo_dep_uf_m2<br><br>
+      precio_neto_uf = precio_venta_uf − comp_parking × parking_uf_casa − comp_storage × storage_uf<br><br>
+      <span class="result">terreno_uf_m2</span> = (precio_neto_uf − costo_total_uf) / comp_land_m2   <em>// usado en REP</em><br><br>
+      precio_stdev_uf = comp_price_pub_uf × (FK_RH − stdev_factor_adj)<br>
+      precio_neto_stdev = precio_stdev_uf − comp_parking × parking_uf_casa<br>
+      <span class="result">terreno_stdev_m2</span> = precio_neto_stdev / comp_land_m2   <em>// usado en STDEV</em><br><br>
+      dias_mercado = (hoy − comp_pub_date) en días   <em>// opcional, informativo</em>
+    </div>
+    <div class="callout info">
+      <strong>Nota</strong>
+      Si el resultado de terreno_uf_m2 o terreno_stdev_m2 es negativo (precio neto insuficiente para cubrir el costo de construcción), se registra como 0 y la fila no contribuye al cálculo de REP/STDEV. La UI lo muestra en rojo.
+    </div>
+  </div>
+
+  <div class="subsection" id="s5-3">
+    <h3>5.3 Método REP (Reposición Física)</h3>
+    <p>Valora el inmueble como suma del valor del terreno (extraído de comparables) más el costo de construcción a nuevo depreciado.</p>
+    <div class="formula">
+      <em>// Valor del terreno</em><br>
+      activos_REP = comparables con terreno_uf_m2 &gt; 0 (últimos 4)<br>
+      <span class="result">vt_MAX</span> = promedio(terreno_uf_m2 de activos_REP)<br>
+      <span class="result">vt_MIN</span> = vt_MAX × 0.95<br>
+      vt_PROM = (vt_MAX + vt_MIN) / 2<br><br>
+      <em>// Superficies del sujeto</em><br>
+      m²_c = m²_utiles + m²_terraza × peso_terraza_area + m²_loggia<br>
+      m²_t = m²_terreno<br>
+      m²_ad1 = adicional_1_m2  |  m²_ad2 = adicional_2_m2<br><br>
+      <em>// Escenario MAX</em><br>
+      terreno_uf = m²_t × vt_MAX<br>
+      construccion_uf = m²_c × costo_REP × 1.00<br>
+      adicional_uf = m²_ad1 × costo_adicional + m²_ad2 × costo_adicional<br>
+      <span class="result">REP_MAX.total_uf</span> = terreno_uf + construccion_uf + adicional_uf<br><br>
+      <em>// Escenario MIN: usar vt_MIN y factor 0.95 en construcción</em><br>
+      <span class="result">REP_MIN.total_uf</span> = m²_t × vt_MIN + m²_c × costo_REP × 0.95 + adicionales<br><br>
+      <span class="result">REP_PROM.total_uf</span> = (REP_MAX.total_uf + REP_MIN.total_uf) / 2
+    </div>
+  </div>
+
+  <div class="subsection" id="s5-4">
+    <h3>5.4 Método Estadístico (STDEV)</h3>
+    <p>Aplica estadística descriptiva sobre los valores de terreno para determinar un intervalo de confianza.</p>
+    <div class="formula">
+      activos_STDEV = comparables con terreno_stdev_m2 &gt; 0 (últimos 3) — requiere ≥ 2<br><br>
+      mediana = mediana de terreno_stdev_m2 de activos_STDEV<br>
+      desv = desviación estándar muestral de terreno_stdev_m2<br><br>
+      <span class="result">intervalo_MAX</span> = mediana + desv<br>
+      <span class="result">intervalo_MIN</span> = mediana − desv<br><br>
+      <em>// Escenario MAX (igual lógica que REP pero usando costo_STDEV e intervalo_MAX)</em><br>
+      STDEV_MAX.total_uf = m²_t × intervalo_MAX + m²_c × costo_STDEV × 1.00 + adicionales<br>
+      STDEV_MIN.total_uf = m²_t × intervalo_MIN + m²_c × costo_STDEV × 0.95 + adicionales<br>
+      STDEV_PROM.total_uf = (MAX + MIN) / 2
+    </div>
+    <div class="callout err">
+      <strong>Error</strong>
+      Si hay menos de 2 comparables activos con terreno_stdev_m2 &gt; 0, el sistema lanza error: "Se requieren al menos 2 comparables activos para el Método Estadístico."
+    </div>
+  </div>
+
+  <div class="subsection" id="s5-5">
+    <h3>5.5 Método MEDIA (promedio REP + STDEV)</h3>
+    <p>Combina ambos métodos promediando valores de terreno y costos de construcción.</p>
+    <div class="formula">
+      <em>// Escenario MAX</em><br>
+      vt = (vt_MAX_REP + intervalo_MAX_STDEV) / 2<br>
+      cc = (costo_REP + costo_STDEV) / 2<br>
+      terreno_uf = m²_t × vt<br>
+      construccion_uf = m²_c × cc × 1.00<br>
+      <span class="result">MEDIA_MAX.total_uf</span> = terreno_uf + construccion_uf + adicionales<br><br>
+      <em>// Escenario MIN: usar vt_MIN_REP + intervalo_MIN_STDEV, factor 0.95</em><br>
+      <span class="result">MEDIA_MIN.total_uf</span> = m²_t × vt_MIN + m²_c × cc × 0.95 + adicionales<br><br>
+      <span class="result">MEDIA_PROM.total_uf</span> = (MEDIA_MAX + MEDIA_MIN) / 2
+    </div>
+    <p>El <strong>Método MEDIA es el valor sugerido final</strong> para casas. Se presenta como el resultado principal en el informe.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECCIÓN 6 — MOTOR DEPTO
+════════════════════════════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <h2>Especificación Lógica — Motor de cálculo DEPTO</h2>
+  </div>
+
+  <div class="subsection" id="s6-1">
+    <h3>6.1 Factores de ajuste</h3>
+    <table>
+      <thead><tr><th>Factor</th><th>Descripción</th><th>Rango</th><th>Opciones</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>F. Estado/Antigüedad</td>
+          <td>Depreciación por antigüedad (comparable y sujeto)</td>
+          <td>0.20 – 1.00</td>
+          <td>81 opciones: 0 años=1.00, decrece 0.01/año hasta 80 años=0.20</td>
+        </tr>
+        <tr>
+          <td>F. Orientación/Vista</td>
+          <td>Calidad de orientación y vistas del comparable</td>
+          <td>0.90 – 1.10</td>
+          <td>11 opciones: Excepcional(1.10) a Muy desfav.(0.90), paso 0.02</td>
+        </tr>
+        <tr>
+          <td>F. Antigüedad Publicación</td>
+          <td>Descuento por tiempo en mercado</td>
+          <td>0.80 – 1.00</td>
+          <td>11 opciones: &lt;1 mes(1.00) a &gt;48 meses(0.80), paso 0.02</td>
+        </tr>
+        <tr>
+          <td>F. Franja de Valor (sujeto)</td>
+          <td>Posición del sujeto en la franja de precios del sector</td>
+          <td>0 – 1</td>
+          <td>Input libre (ej: 0.96)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection" id="s6-2">
+    <h3>6.2 Procesamiento de comparable Departamento</h3>
+    <div class="formula">
+      precio_venta_uf = comp_price_pub_uf × (comp_factor_estado − 0.05)<br>
+      m2_total = comp_util_m2 + comp_terrace_m2 × terrace_weight_depto_area<br>
+      precio_neto_uf = precio_venta_uf − comp_parking × parking_uf_depto − comp_storage × storage_uf<br><br>
+      valor_nominal_uf_m2 = precio_neto_uf / m2_total<br>
+      <span class="result">valor_ajustado_uf_m2</span> = valor_nominal_uf_m2 × comp_factor_estado × comp_factor_orient × comp_factor_antipub
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>6.3 Método Competencia Directa (COMP)</h3>
+    <p>Requiere mínimo 3 comparables activos con <code>valor_ajustado_uf_m2 &gt; 0</code>.</p>
+    <div class="formula">
+      uf_m2_promedio = promedio(valor_ajustado_uf_m2 de todos los activos)<br>
+      cd_uf_m2 = promedio(valor_ajustado_uf_m2 de los últimos 3 activos)   <em>// base del cálculo</em><br><br>
+      <em>// Factores del sujeto: fe = factor_estado, fo = factor_orient, ff = factor_franja</em><br><br>
+      <em>// Escenario MAX (orientación como techo)</em><br>
+      uf_m2_util_MAX = cd_uf_m2 × fe × fo<br>
+      uf_m2_terraza_MAX = uf_m2_util_MAX × terrace_price_weight_depto<br>
+      util_uf_MAX = m²_utiles × uf_m2_util_MAX<br>
+      terraza_uf_MAX = m²_terraza × uf_m2_terraza_MAX<br>
+      est_uf_MAX = estacionamientos × parking_uf_depto<br>
+      bod_uf_MAX = bodegas × storage_uf<br>
+      <span class="result">COMP_MAX.total_uf</span> = util_uf + terraza_uf + est_uf + bod_uf<br><br>
+      <em>// Escenario MIN (franja como suelo)</em><br>
+      uf_m2_util_MIN = cd_uf_m2 × fe × ff<br>
+      est_uf_MIN = estacionamientos × parking_uf_depto × ff<br>
+      bod_uf_MIN = bodegas × storage_uf × ff<br>
+      <span class="result">COMP_MIN.total_uf</span> = util_uf_MIN + terraza_uf_MIN + est_uf_MIN + bod_uf_MIN<br><br>
+      <span class="result">COMP_PROM.total_uf</span> = (COMP_MAX + COMP_MIN) / 2
+    </div>
+    <div class="callout err">
+      <strong>Error</strong>
+      Si hay menos de 3 comparables activos con valor_ajustado_uf_m2 &gt; 0, el sistema lanza: "Se requieren al menos 3 comparables activos para la Competencia Directa."
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECCIÓN 7 — ANÁLISIS DE ARRIENDOS
+════════════════════════════════════════════════════════ -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <h2>Especificación Lógica — Análisis de arriendos</h2>
+  </div>
+
+  <div class="subsection">
+    <h3>7.1 Homologación de monedas</h3>
+    <p>Cada comparable de arriendo puede estar en CLP o UF. Si está en UF y existe el valor UF del día, se convierte: <code>arriendo_clp = arriendo_UF × uf_value_clp</code>. Si está en UF y no hay valor UF, el cálculo arroja error.</p>
+  </div>
+
+  <div class="subsection">
+    <h3>7.2 Cálculo de rentabilidad y cap rate</h3>
+    <div class="formula">
+      <em>// Requiere ≥ 3 comparables con arriendo_clp &gt; 0</em><br>
+      arriendo_promedio_clp = promedio(arriendo_clp de comparables válidos)<br>
+      arriendo_promedio_uf = arriendo_promedio_clp / uf_value_clp  <em>(si hay UF)</em><br>
+      valor_propiedad_clp = valor_propiedad_uf × uf_value_clp  <em>(si hay UF)</em><br><br>
+      gastos_anuales_clp = arriendo_promedio_clp × 12 × 0.10   <em>// 10% de gastos anuales</em><br><br>
+      <em>// Para cada escenario de vacancia (meses = 1, 2 o 3):</em><br>
+      meses_ocupados = 12 − meses<br>
+      ingresos_anuales_clp = arriendo_promedio_clp × meses_ocupados<br>
+      ingreso_neto_anual_clp = ingresos_anuales_clp − gastos_anuales_clp<br><br>
+      <span class="result">cap_rate</span> = (arriendo_promedio_clp / valor_propiedad_clp) × meses_ocupados × 0.90 × 100<br>
+      <em>// Factor 0.90 representa el 90% de ocupación efectiva ponderada</em>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3>7.3 Escenarios de vacancia</h3>
+    <table>
+      <thead><tr><th>Vacancia</th><th>Meses ocupados</th><th>Efecto en ingresos</th></tr></thead>
+      <tbody>
+        <tr><td>1 mes</td><td>11</td><td>Ingresos = arriendo × 11</td></tr>
+        <tr><td>2 meses</td><td>10</td><td>Ingresos = arriendo × 10</td></tr>
+        <tr><td>3 meses</td><td>9</td><td>Ingresos = arriendo × 9</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECCIÓN 8 — PARÁMETROS POR DEFECTO
+════════════════════════════════════════════════════════ -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <h2>Parámetros de mercado por defecto</h2>
+  </div>
+
+  <div class="param-grid">
+    <div class="param-item">
+      <div class="param-name">uf_value_clp</div>
+      <div class="param-val">null</div>
+      <div class="param-desc">Se carga desde la API o se ingresa manualmente</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">negotiation_factor</div>
+      <div class="param-val">0.95</div>
+      <div class="param-desc">Descuento de negociación estándar (-5%)</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">parking_uf_casa</div>
+      <div class="param-val">450 UF</div>
+      <div class="param-desc">Valor unitario estacionamiento casa</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">parking_uf_depto</div>
+      <div class="param-val">400 UF</div>
+      <div class="param-desc">Valor unitario estacionamiento departamento</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">storage_uf</div>
+      <div class="param-val">70 UF</div>
+      <div class="param-desc">Valor unitario bodega</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">terrace_weight_casa_area</div>
+      <div class="param-val">0.70</div>
+      <div class="param-desc">70% del m² de terraza se suma al m²_c en Casa</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">terrace_weight_depto_area</div>
+      <div class="param-val">0.50</div>
+      <div class="param-desc">50% del m² de terraza se suma al m²_total en Depto</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">terrace_price_weight_depto</div>
+      <div class="param-val">0.70</div>
+      <div class="param-desc">Precio terraza = 70% del precio UF/m² útil</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">construction_cost_rep</div>
+      <div class="param-val">4.94 UF/m²</div>
+      <div class="param-desc">Costo de construcción REP por m²</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">construction_cost_stdev</div>
+      <div class="param-val">24.00 UF/m²</div>
+      <div class="param-desc">Costo de construcción para método Estadístico</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">additional_cost</div>
+      <div class="param-val">3.40 UF/m²</div>
+      <div class="param-desc">Costo por m² de construcción adicional</div>
+    </div>
+    <div class="param-item">
+      <div class="param-name">stdev_factor_adj</div>
+      <div class="param-val">0.05</div>
+      <div class="param-desc">Ajuste restado a FK_RH para precio_stdev</div>
+    </div>
+  </div>
+
+  <div class="callout info" style="margin-top:16px">
+    <strong>Nota</strong>
+    Todos los parámetros son configurables en el Paso 1. Los valores por defecto reflejan el mercado inmobiliario chileno promedio vigente. Se recomienda actualizar <code>construction_cost_rep</code> y <code>construction_cost_stdev</code> periódicamente según la publicación de costos de la Cámara Chilena de la Construcción.
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECCIÓN 9 — GENERACIÓN PDF
+════════════════════════════════════════════════════════ -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <h2>Generación del PDF</h2>
+  </div>
+
+  <div class="subsection">
+    <h3>9.1 Configuración jsPDF</h3>
+    <table>
+      <thead><tr><th>Parámetro</th><th>Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Orientación</td><td>portrait</td></tr>
+        <tr><td>Unidad</td><td>mm</td></tr>
+        <tr><td>Formato</td><td>letter (216 × 279 mm)</td></tr>
+        <tr><td>Margen izquierdo (marginL)</td><td>18 mm</td></tr>
+        <tr><td>Ancho contenido (contentW)</td><td>180 mm (216 − 18×2)</td></tr>
+        <tr><td>Límite inferior de página</td><td>255 mm (antes del footer)</td></tr>
+        <tr><td>y inicial tras encabezado</td><td>48 mm</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection">
+    <h3>9.2 Estructura del PDF</h3>
+    <table>
+      <thead><tr><th>Elemento</th><th>Posición/Altura</th><th>Descripción</th></tr></thead>
+      <tbody>
+        <tr><td>Encabezado</td><td>y=0, h=40mm</td><td>Rectángulo navy, título 18pt, subtítulo 10pt, fecha/UF 8pt</td></tr>
+        <tr><td>Datos propietario</td><td>y=48</td><td>addRow: Propietario, Dirección, Comuna, Rol SII</td></tr>
+        <tr><td>I. Análisis Propiedad</td><td>sectionTitle</td><td>addRow con todos los datos del sujeto</td></tr>
+        <tr><td>II. Factibilidad</td><td>sectionTitle</td><td>Expectativa, tasación, avalúo. Observaciones si hay.</td></tr>
+        <tr><td>Arriendos</td><td>drawTable</td><td>Tabla de comparables de arriendo + promedio</td></tr>
+        <tr><td>III. Estrategia Precio</td><td>drawTable</td><td>Filas UF y CLP. Cols: Precio, Mínimo, ★ Promedio, Máximo</td></tr>
+        <tr><td>Vacancia</td><td>drawTable</td><td>6 cols: Vacancia, Arr.Mensual, Ing.Anual, Gastos, Neto, ★Cap Rate</td></tr>
+        <tr><td>IV. Conclusiones</td><td>texto libre</td><td>Párrafo autogenerado con splitTextToSize</td></tr>
+        <tr><td>Footer</td><td>y=268</td><td>Gris 7pt: fecha — sistema — página N</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection">
+    <h3>9.3 Paginación automática</h3>
+    <p>Antes de cada elemento se llama a <code>checkPage(need)</code>: si <code>y + need &gt; 255</code>, se agrega nueva página, se resetea <code>y = 20</code> y se llama <code>addFooter()</code> en la página anterior.</p>
+  </div>
+
+  <div class="subsection">
+    <h3>9.4 Nombre de archivo</h3>
+    <div class="formula">
+      filename = <span class="result">Informe_{Casa|Depto}_{dirección_sanitizada}_{YYYY-MM-DD}.pdf</span><br>
+      dirección_sanitizada = address.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 25)
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECCIÓN 10 — VALIDACIONES
+════════════════════════════════════════════════════════ -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <h2>Validaciones y manejo de errores</h2>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Contexto</th><th>Condición</th><th>Mensaje de error</th><th>Acción</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Paso 2 → 3 (DEPTO)</td>
+        <td>m²_útiles = 0 o nulo</td>
+        <td>"Ingrese los m² Útiles del inmueble."</td>
+        <td>Toast destructivo, bloquea avance</td>
+      </tr>
+      <tr>
+        <td>Paso 2 → 3 (DEPTO)</td>
+        <td>Falta factor estado, orientación o franja</td>
+        <td>"Seleccione el Factor Estado/Antigüedad." / "Seleccione el Factor Orientación/Vista." / "Ingrese el Factor Franja de Valor."</td>
+        <td>Toast destructivo, bloquea avance</td>
+      </tr>
+      <tr>
+        <td>Cálculo STDEV (CASA)</td>
+        <td>Menos de 2 comparables activos con terreno_stdev_m2 &gt; 0</td>
+        <td>"Se requieren al menos 2 comparables activos para el Método Estadístico."</td>
+        <td>Toast destructivo, no se avanza al paso 4</td>
+      </tr>
+      <tr>
+        <td>Cálculo COMP (DEPTO)</td>
+        <td>Menos de 3 comparables activos con valor_ajustado_uf_m2 &gt; 0</td>
+        <td>"Se requieren al menos 3 comparables activos para la Competencia Directa."</td>
+        <td>Toast destructivo, no se avanza al paso 4</td>
+      </tr>
+      <tr>
+        <td>Cálculo COMP (DEPTO)</td>
+        <td>Algún factor del sujeto es 0, null o NaN</td>
+        <td>"Debe completar los factores del sujeto (estado, orientación y franja de valor)."</td>
+        <td>Toast destructivo</td>
+      </tr>
+      <tr>
+        <td>Paso 5 (Arriendos)</td>
+        <td>Comparable en UF sin valor UF del día</td>
+        <td>"Se requiere el valor UF del día para homologar comparables en UF."</td>
+        <td>Alerta amarilla visible, cálculo no disponible</td>
+      </tr>
+      <tr>
+        <td>Paso 5 (Arriendos)</td>
+        <td>Menos de 3 comparables con arriendo válido</td>
+        <td>"Se requieren al menos 3 comparables de arriendo con valores válidos."</td>
+        <td>Vista previa no se muestra; paso 6 procede sin análisis de arriendos</td>
+      </tr>
+      <tr>
+        <td>Carga UF (Paso 1)</td>
+        <td>Error de red o respuesta inesperada</td>
+        <td>"No se pudo cargar la UF. Ingrese el valor manualmente."</td>
+        <td>Toast destructivo</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout ok" style="margin-top:16px">
+    <strong>✓ Formateo de números</strong>
+    <strong>UF:</strong> <code>toLocaleString('es-CL', {minimumFractionDigits:2, maximumFractionDigits:2})</code><br>
+    <strong>CLP:</strong> <code>'$' + Math.round(valor).toLocaleString('es-CL')</code><br>
+    <strong>Porcentajes:</strong> <code>valor.toFixed(2) + '%'</code><br>
+    <strong>Nulo/NaN:</strong> <code>'—'</code>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FIRMA
+════════════════════════════════════════════════════════ -->
+<div style="margin-top:56px;border-top:2px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center">
+  <div>
+    <p style="font-size:12px;font-weight:700;color:var(--navy)">Viveprop Evaluaciones Comerciales</p>
+    <p style="font-size:11px;color:var(--gray)">Sistema de Valorización Inmobiliaria — Chile</p>
+  </div>
+  <div style="text-align:right">
+    <p style="font-size:11px;color:var(--gray)">Documento generado el <span id="doc-date-footer"></span></p>
+    <p style="font-size:11px;color:var(--gray)">Versión 1.0 — Confidencial</p>
+  </div>
+</div>
+
+<!-- Botón de impresión/PDF -->
+<button class="print-btn" onclick="window.print()">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+    <rect x="6" y="14" width="12" height="8"/>
+  </svg>
+  Imprimir / Guardar PDF
+</button>
+
+<script>
+  const fecha = new Date().toLocaleDateString('es-CL', {day:'2-digit', month:'long', year:'numeric'});
+  document.getElementById('doc-date').textContent = fecha;
+  document.getElementById('doc-date-footer').textContent = fecha;
+</script>
+</body>
+</html>
