@@ -15,3 +15,6 @@
 .idea
 .vscode/*
 !.vscode/extensions.json
+
+desktop.ini
+Thumbs.db
