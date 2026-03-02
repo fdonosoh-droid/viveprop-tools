@@ -108,10 +108,10 @@ export function ComparablesDeptStep({ comparables, params, onChange, onNext, onB
               <th className="px-2 py-2 w-12">Est.</th>
               <th className="px-2 py-2 w-12">Bod.</th>
               {/* Calculated */}
-              <th className="px-2 py-2 bg-navy/80">Precio Venta</th>
-              <th className="px-2 py-2 bg-navy/80">m²Total</th>
-              <th className="px-2 py-2 bg-navy/80">Precio Neto</th>
-              <th className="px-2 py-2 bg-navy/80">UF/m²Nom.</th>
+              <th className="px-2 py-2 bg-navy/80 text-white">Precio Venta</th>
+              <th className="px-2 py-2 bg-navy/80 text-white">m²Total</th>
+              <th className="px-2 py-2 bg-navy/80 text-white">Precio Neto</th>
+              <th className="px-2 py-2 bg-navy/80 text-white">UF/m²Nom.</th>
               <th className="px-2 py-2 bg-gold/80 text-navy">UF/m²Ajust.</th>
               <th className="px-2 py-2 w-8"></th>
             </tr>

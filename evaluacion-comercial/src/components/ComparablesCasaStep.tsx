@@ -88,9 +88,9 @@ export function ComparablesCasaStep({ comparables, params, onChange, onNext, onB
               <th className="px-2 py-2 w-12">Est.</th>
               <th className="px-2 py-2 w-12">Bod.</th>
               {/* Calculated */}
-              <th className="px-2 py-2 w-24 bg-navy/80">Precio Venta</th>
-              <th className="px-2 py-2 w-20 bg-navy/80">% Vida</th>
-              <th className="px-2 py-2 w-20 bg-navy/80">FK RH</th>
+              <th className="px-2 py-2 w-24 bg-navy/80 text-white">Precio Venta</th>
+              <th className="px-2 py-2 w-20 bg-navy/80 text-white">% Vida</th>
+              <th className="px-2 py-2 w-20 bg-navy/80 text-white">FK RH</th>
               <th className="px-2 py-2 w-24 bg-gold/80 text-navy">Terreno UF/m²</th>
               <th className="px-2 py-2 w-8"></th>
             </tr>
